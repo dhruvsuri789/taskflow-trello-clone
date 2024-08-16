@@ -1,4 +1,5 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "sonner";
 
 interface PlatformLayoutProps {
   children: React.ReactNode;
@@ -11,7 +12,12 @@ We can add it to the entire platform in the root layout. But you lose on static 
 We will let middleware exclude marketing pages from clerk authentication in middleware.ts
 */
 function PlatformLayout({ children }: PlatformLayoutProps) {
-  return <ClerkProvider>{children}</ClerkProvider>;
+  return (
+    <ClerkProvider>
+      <Toaster />
+      {children}
+    </ClerkProvider>
+  );
 }
 
 export default PlatformLayout;

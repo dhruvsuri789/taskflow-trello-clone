@@ -1,4 +1,3 @@
-import { RedirectToSignIn } from "@clerk/nextjs";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
@@ -20,29 +19,27 @@ export default clerkMiddleware((auth, request) => {
     auth().protect();
   }
 
+  const { userId, orgId } = auth();
+
   // Handle users who aren't authenticated
-  if (!auth().userId && !isPublicRoute(request)) {
+  if (!userId && !isPublicRoute(request)) {
     return auth().redirectToSignIn({
       returnBackUrl: request.url,
     });
   }
 
   // Redirect signed in users to organization selection page if they are not active in an organization
-  if (
-    auth().userId &&
-    !auth().orgId &&
-    request.nextUrl.pathname !== "/select-org"
-  ) {
+  if (userId && !orgId && request.nextUrl.pathname !== "/select-org") {
     const orgSelection = new URL("/select-org", request.url);
     return NextResponse.redirect(orgSelection);
   }
 
   // Handle users who are authenticated
-  if (auth().userId && isPublicRoute(request)) {
+  if (userId && isPublicRoute(request)) {
     let path = "/select-org";
 
-    if (auth().orgId) {
-      path = `/organization/${auth().orgId}`;
+    if (orgId) {
+      path = `/organization/${orgId}`;
     }
 
     const orgSelection = new URL(path, request.url);

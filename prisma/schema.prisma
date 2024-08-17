@@ -25,8 +25,46 @@ model Board{
   imageUserName   String @db.Text
   imageLinkHTML   String @db.Text
 
+  // To refer the List
+  lists           List[]
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
 // @db.Text for longer text
+
+model List {
+  id          String @id @default(uuid())
+  title       String
+  // What we will modify whenever we drag and drop in different position
+  // When we will initially fetch the list we will do orderBy with this field
+  order       Int
+
+  boardId     String
+  // Relation with the Board using the boardId, refrencing to the board's id
+  // When we delete a board we instruct it that this list is also to be deleted using cascading
+  board       Board @relation(fields:[boardId], references:[id], onDelete: Cascade)
+
+  cards       Card[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([boardId])
+}
+
+model Card{
+  id          String @id @default(uuid())
+  title       String
+  order       Int
+  description String? @db.Text
+
+  listId      String
+  list List   @relation(fields:[listId], references:[id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([listId])
+}

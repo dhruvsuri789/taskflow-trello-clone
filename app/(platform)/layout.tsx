@@ -1,3 +1,5 @@
+import ModalProvider from "@/components/providers/ModalProvider";
+import QueryProvider from "@/components/providers/QueryProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
@@ -14,8 +16,11 @@ We will let middleware exclude marketing pages from clerk authentication in midd
 function PlatformLayout({ children }: PlatformLayoutProps) {
   return (
     <ClerkProvider>
-      <Toaster />
-      {children}
+      <QueryProvider>
+        <Toaster />
+        <ModalProvider />
+        {children}
+      </QueryProvider>
     </ClerkProvider>
   );
 }

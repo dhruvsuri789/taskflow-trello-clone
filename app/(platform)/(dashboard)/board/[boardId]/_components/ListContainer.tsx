@@ -126,13 +126,13 @@ function ListContainer({ data, boardId }: ListContainerProps) {
           boardId,
           items: reorderedCards,
         });
-      } else {
-        // User moves the card to another list
-
+      }
+      // User moves the card to another list
+      else {
         // Remove card from source list
         const [movedCard] = sourceList.cards.splice(source.index, 1);
 
-        // Assign the new listld to the moved card
+        // Assign the new listId to the moved card
         movedCard.listId = destination.droppableId;
 
         // Add card to the destination list

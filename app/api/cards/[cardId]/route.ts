@@ -8,7 +8,7 @@ export async function GET(
 ) {
   try {
     const { userId, orgId } = auth();
-    if (!userId && !orgId) {
+    if (!userId || !orgId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 

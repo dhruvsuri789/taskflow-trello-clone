@@ -9,16 +9,19 @@ import { CreateBoard } from "./schema";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { incrementAvailableCount, hasAvailableCount } from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
 
-  if (!userId && !orgId) {
+  if (!userId || !orgId) {
     return { error: "Unauthorized" };
   }
 
   const canCreate = await hasAvailableCount();
-  if (!canCreate) {
+  const isPro = await checkSubscription();
+
+  if (!canCreate && !isPro) {
     return {
       error:
         "You have reached your limit of free boards. Please upgrade to create more.",
@@ -55,7 +58,10 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       },
     });
 
-    await incrementAvailableCount();
+    // Increase count only when it's not pro, in other words its free mode
+    if (!isPro) {
+      await incrementAvailableCount();
+    }
 
     await createAuditLog({
       entityId: board.id,

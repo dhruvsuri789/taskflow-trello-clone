@@ -16,3 +16,7 @@ export const textFont = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
+
+export function absoluteUrl(path: string) {
+  return process.env.NEXT_PUBLIC_APP_URL + path;
+}

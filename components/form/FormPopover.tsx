@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import FormPicker from "./FormPicker";
 import { ElementRef, useRef } from "react";
 import { useRouter } from "next/navigation";
+import useProModal from "@/hooks/useProModal";
 
 interface FormPopoverProps {
   children: React.ReactNode;
@@ -36,6 +37,7 @@ function FormPopover({
   // To close the popover on submition
   const closeRef = useRef<ElementRef<"button">>(null);
   const router = useRouter();
+  const proModal = useProModal();
 
   const { execute, fieldErrors } = useAction(createBoard, {
     onSuccess: (data) => {
@@ -45,6 +47,7 @@ function FormPopover({
     },
     onError: (error) => {
       toast.error(error);
+      proModal.onOpen();
     },
   });
 

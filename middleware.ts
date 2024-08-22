@@ -12,7 +12,12 @@ export const config = {
 
 // This middleware protects all routes except for the public routes
 // These all are public routes that can accessed by anyone
-const isPublicRoute = createRouteMatcher(["/", "/sign-in(.*)", "/sign-up(.*)"]);
+const isPublicRoute = createRouteMatcher([
+  "/",
+  "/api/webhook",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+]);
 
 export default clerkMiddleware((auth, request) => {
   if (!isPublicRoute(request)) {

@@ -10,7 +10,7 @@ import { UpdateCardOrder } from "./schema";
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
 
-  if (!userId && !orgId) {
+  if (!userId || !orgId) {
     return { error: "Unauthorized" };
   }
 

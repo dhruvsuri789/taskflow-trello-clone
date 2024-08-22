@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 
 import { MAX_FREE_BOARDS } from "@/constants/boards";
 import { getAvailableCount } from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 async function BoardList() {
   const { orgId } = auth();
@@ -27,6 +28,7 @@ async function BoardList() {
   });
 
   const availableCount = await getAvailableCount();
+  const isPro = await checkSubscription();
 
   return (
     <div className="space-y-4">
@@ -53,7 +55,9 @@ async function BoardList() {
           >
             <p className="text-sm">Create new board</p>
             <span className="text-xs">
-              {`${MAX_FREE_BOARDS - availableCount}`} remaining
+              {isPro
+                ? "Unlimited"
+                : `${MAX_FREE_BOARDS - availableCount} remaining`}
             </span>
             <Hint
               sideOffset={40}

@@ -1,11 +1,11 @@
 "use server";
 
-import { auth } from "@clerk/nextjs/server";
-import { InputType, ReturnType } from "./types";
-import { prismaClient } from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/create-safe-action";
-import { CreateCard } from "./schema";
+import { prismaClient } from "@/lib/db";
+import { auth } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
+import { CopyCard } from "./schema";
+import { InputType, ReturnType } from "./types";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
@@ -16,27 +16,29 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "Unauthorized" };
   }
 
-  const { title, boardId, listId } = data;
+  const { id, boardId } = data;
 
   let card;
 
   try {
-    const list = await prismaClient.list.findUnique({
+    const cardToCopy = await prismaClient.card.findUnique({
       where: {
-        id: listId,
-        board: {
-          orgId,
+        id,
+        list: {
+          board: {
+            orgId,
+          },
         },
       },
     });
 
-    if (!list) {
-      return { error: "List not found." };
+    if (!cardToCopy) {
+      return { error: "Card not found." };
     }
 
     const lastCard = await prismaClient.card.findFirst({
       where: {
-        listId,
+        listId: cardToCopy.listId,
       },
       orderBy: {
         order: "desc",
@@ -50,9 +52,10 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
     card = await prismaClient.card.create({
       data: {
-        title,
-        listId,
+        title: `${cardToCopy.title} - Copy`,
+        description: cardToCopy.description,
         order: newOrder,
+        listId: cardToCopy.listId,
       },
     });
 
@@ -63,12 +66,11 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       action: ACTION.CREATE,
     });
   } catch (error) {
-    return { error: "Failed to create card." };
+    return { error: "Failed to copy card." };
   }
 
   revalidatePath(`/board/${boardId}`);
-
   return { data: card };
 };
 
-export const createCard = createSafeAction(CreateCard, handler);
+export const copyCard = createSafeAction(CopyCard, handler);

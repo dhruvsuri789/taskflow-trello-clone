@@ -78,7 +78,7 @@ function FormPicker({ id, errors }: FormPickerProps) {
               onChange={() => setSelectedImageId(image.id)}
               checked={selectedImageId === image.id}
               disabled={pending}
-              value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.user.links.html}|${image.user.name}`}
+              value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
             />
             <Image
               fill
@@ -92,7 +92,7 @@ function FormPicker({ id, errors }: FormPickerProps) {
               </div>
             )}
             <Link
-              href={image.links.html}
+              href={image.user.links.html}
               target="_blank"
               className="opacity-0 group-hover:opacity-100 absolute bottom-0 w-full text-[10px] truncate text-white hover:underline p-1 bg-black/50"
             >

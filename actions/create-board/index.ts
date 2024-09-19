@@ -10,6 +10,7 @@ import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { incrementAvailableCount, hasAvailableCount } from "@/lib/org-limit";
 import { checkSubscription } from "@/lib/subscription";
+import { unsplash } from "@/lib/unsplash";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
@@ -30,8 +31,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
   const { title, image } = data;
 
-  const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
-    image.split("|");
+  const [
+    imageId,
+    imageThumbUrl,
+    imageFullUrl,
+    imageLinkHTML,
+    imageUserName,
+    imageDownloadLocation,
+  ] = image.split("|");
 
   if (
     !imageId ||
@@ -69,9 +76,28 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       entityType: ENTITY_TYPE.BOARD,
       action: ACTION.CREATE,
     });
+
+    //for image download counter on Unsplash
+    // await fetch(
+    //   `${imageDownloadLocation}?client_id=${process.env
+    //     .NEXT_PUBLIC_UNSPLASH_ACCESS_KEY!}`
+    // );
+
+    // console.log(imageDownloadLocation);
+    await unsplash.photos.trackDownload({
+      downloadLocation: imageDownloadLocation,
+    });
   } catch (error) {
     return { error: "Failed to create board" };
   }
+
+  // try {
+  //   await unsplash.photos.trackDownload({
+  //     downloadLocation: imageDownloadLocation,
+  //   });
+  // } catch (error) {
+  //   console.log("Failed to track download on Unsplash");
+  // }
 
   revalidatePath(`/board/${board.id}`);
   // We return data as it passed all the FieldErrors checks (validation) and any server errors

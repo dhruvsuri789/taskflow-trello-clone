@@ -78,7 +78,7 @@ function FormPicker({ id, errors }: FormPickerProps) {
               onChange={() => setSelectedImageId(image.id)}
               checked={selectedImageId === image.id}
               disabled={pending}
-              value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}`}
+              value={`${image.id}|${image.urls.thumb}|${image.urls.full}|${image.links.html}|${image.user.name}|${image.links.download_location}`}
             />
             <Image
               fill

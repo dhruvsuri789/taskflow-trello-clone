@@ -51,6 +51,7 @@ function ListHeader({ data, onAddCard }: ListHeaderProps) {
     const id = formData.get("id") as string;
     const boardId = formData.get("boardId") as string;
 
+    // If the title is same then just disable editing. No need to make an API call
     if (title === data.title) return disableEditing();
 
     execute({ id, title, boardId });

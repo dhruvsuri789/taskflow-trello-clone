@@ -19,6 +19,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   let updatedCards;
 
   try {
+    // Creating multiple updates in a single transaction
     const transaction = items.map((card) => {
       return prismaClient.card.update({
         where: {

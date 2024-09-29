@@ -51,8 +51,15 @@ model List {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // Its a directive that creates an index on the boardId column in the database.
+  // Indexes are used to improve the speed of data retrieval operations on a database table at the cost of additional storage space and potentially slower write operations.
+  // By creating an index on these columns, Prisma can improve the performance of queries that filter or sort by these columns.
   @@index([boardId])
 }
+
+// The primary purpose of this code snippet is to create an index on the boardId column of a database table. This is typically done to:
+// - Improve Query Performance: By indexing the boardId column, queries that filter or join based on this column will be faster. For example, if you frequently query for records where boardId equals a certain value, the index will make these queries more efficient.
+// - Optimize Data Access: Indexes help the database engine to quickly locate and access the data without scanning the entire table.
 
 model Card{
   id          String @id @default(uuid())
@@ -110,6 +117,8 @@ model OrgSubscription {
   orgId             String @unique
 
   // Creating an alias for this using mapping
+  // The database will have a column named stripe_customer_id
+  // whereas the code will have a column named stripeCustomerId
   stripeCustomerId        String? @unique @map(name: "stripe_customer_id")
   stripeSubscriptionId    String? @unique @map(name: "stripe_subscription_id")
   stripePriceId           String? @map(name: "stripe_price_id")

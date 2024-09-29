@@ -12,6 +12,7 @@ export const config = {
 
 // This middleware protects all routes except for the public routes
 // These all are public routes that can accessed by anyone
+// This is different from the middleware in Next Auth where we provide the private routes
 const isPublicRoute = createRouteMatcher([
   "/",
   "/api/webhook",
@@ -20,13 +21,15 @@ const isPublicRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware((auth, request) => {
+  // Protect private routes
+  // If the route is not among the public routes then protect it
   if (!isPublicRoute(request)) {
     auth().protect();
   }
 
   const { userId, orgId } = auth();
 
-  // Handle users who aren't authenticated
+  // Handle users who aren't authenticated and are not public routes
   if (!userId && !isPublicRoute(request)) {
     return auth().redirectToSignIn({
       returnBackUrl: request.url,
@@ -39,7 +42,7 @@ export default clerkMiddleware((auth, request) => {
     return NextResponse.redirect(orgSelection);
   }
 
-  // Handle users who are authenticated
+  // Handle users who are authenticated to either redirect to organization selection page or home page if they are active in an organization
   if (userId && isPublicRoute(request)) {
     let path = "/select-org";
 

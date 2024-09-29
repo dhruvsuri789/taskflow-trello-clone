@@ -30,6 +30,10 @@ function BoardTitleForm({ data }: BoardTitleFormProps) {
   const [title, setTitle] = useState(data.title);
   const [isEditing, setIsEditing] = useState(false);
 
+  /* 
+  - focus() sets the focus to the input field, making it active and ready for user input.
+  - select() highlights the text within the input field, making it easy for the user to start typing and replace the existing content.
+  */
   const enableEditing = () => {
     setIsEditing(true);
     setTimeout(() => {
@@ -47,10 +51,13 @@ function BoardTitleForm({ data }: BoardTitleFormProps) {
     execute({ id: data.id, title });
   };
 
+  // On blur, submit the form
   const onBlur = () => {
     formRef.current?.requestSubmit();
   };
 
+  // Return the form if it is in editing mode
+  // Otherwise return the title which is a button
   if (isEditing) {
     return (
       <form

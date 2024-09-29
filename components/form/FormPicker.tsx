@@ -15,9 +15,19 @@ interface FormPickerProps {
   errors?: Record<string, string[] | undefined>;
 }
 
+/**
+ * FormPicker component for selecting images from Unsplash.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.id - The ID for the form picker.
+ * @param {Array} props.errors - The array of form errors.
+ */
 function FormPicker({ id, errors }: FormPickerProps) {
+  // Can only be used inside a child component of the form component
+  // That form component must have an action prop handling the submition
   const { pending } = useFormStatus();
 
+  // Set default images incase of fetching error
   const [images, setImages] =
     useState<Array<Record<string, any>>>(defaultImages);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +36,9 @@ function FormPicker({ id, errors }: FormPickerProps) {
   useEffect(() => {
     const fetchImages = async () => {
       try {
+        // Get random images from Unsplash
         const result = await unsplash.photos.getRandom({
+          // Contains a collection of images that are good for this project
           collectionIds: ["317099"],
           count: 9,
         });

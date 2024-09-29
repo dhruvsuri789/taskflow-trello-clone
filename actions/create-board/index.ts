@@ -12,6 +12,10 @@ import { incrementAvailableCount, hasAvailableCount } from "@/lib/org-limit";
 import { checkSubscription } from "@/lib/subscription";
 import { unsplash } from "@/lib/unsplash";
 
+// This snippet is part of a function (createSafeAction) that validates data and then processes it if it's valid.
+/* 
+- The handler function then performs the desired action and returns a success response.
+*/
 const handler = async (data: InputType): Promise<ReturnType> => {
   const { userId, orgId } = auth();
 

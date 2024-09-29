@@ -32,6 +32,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       return { error: "Board not found." };
     }
 
+    // Get the last list and select only order field by descending
     const lastList = await prismaClient.list.findFirst({
       where: {
         boardId,
@@ -44,6 +45,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       },
     });
 
+    // Set the new order to the last list order + 1 or if it is the first list, set it to 1
     const newOrder = lastList ? lastList.order + 1 : 1;
 
     list = await prismaClient.list.create({

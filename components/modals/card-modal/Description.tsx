@@ -65,6 +65,7 @@ function Description({ data }: DescriptionProps) {
     const description = formData.get("description") as string;
     const boardId = params.boardId as string;
 
+    // If the description is same then just disable editing. No need to make an API call
     if (description === data.description) return disableEditing();
 
     execute({ id: data.id, description, boardId });

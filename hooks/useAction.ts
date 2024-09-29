@@ -22,6 +22,7 @@ export const useAction = <TInput, TOutput>(
   const [data, setData] = useState<TOutput | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
+  // First to be called. Everything starts here
   const execute = useCallback(
     async (input: TInput) => {
       setIsLoading(true);

@@ -14,5 +14,5 @@ export const prismaClient = globalThis.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== "production") globalThis.prisma = prismaClient;
 
 // If we do simply this way, it will create a new instance every time we call it
-// NextJs does hot reload, so it will create a new instance every time and that will create a warnig inside your project
+// NextJs does hot reload, so it will create a new instance every time and that will create a warning inside your project
 // const prisma = new PrismaClient()

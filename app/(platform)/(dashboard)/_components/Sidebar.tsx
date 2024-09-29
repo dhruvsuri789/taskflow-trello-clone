@@ -20,15 +20,20 @@ function Sidebar({ storageKey = "t-sidebar-state" }: SidebarProps) {
     storageKey,
     {}
   );
+
+  // To check which organization is active in the sidebar and highlight its Boards option
   const { organization: activeOrganization, isLoaded: isLoadedOrg } =
     useOrganization();
 
+  // Get all the organization lists created by the user
   const { userMemberships, isLoaded: isLoadedOrgList } = useOrganizationList({
     userMemberships: {
       infinite: true,
     },
   });
 
+  // This is just array of keys of the organizations
+  // It will work as the default values of the Accordion
   const defaultAccordianValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
       if (expanded[key]) {
@@ -39,6 +44,8 @@ function Sidebar({ storageKey = "t-sidebar-state" }: SidebarProps) {
     []
   );
 
+  // Editing the accordian value to true or false based on the key
+  // And then saving it in the local storage
   const onExpand = (key: string) => {
     setExpanded((prev) => ({
       ...prev,
@@ -46,6 +53,7 @@ function Sidebar({ storageKey = "t-sidebar-state" }: SidebarProps) {
     }));
   };
 
+  // Skeleton for loading state above
   if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
     return (
       <>

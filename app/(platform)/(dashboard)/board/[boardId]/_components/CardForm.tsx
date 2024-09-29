@@ -43,6 +43,7 @@ const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
     useOnClickOutside(formRef, disableEditing);
     useEventListener("keydown", onKeyDown);
 
+    // Keydown event for textarea
     const onTextareaKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (
       event
     ) => {

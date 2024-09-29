@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+````markdown
+# TaskFlow
 
-## Getting Started
+TaskFlow is a project management tool inspired by Trello. It allows users to collaborate, manage projects, and reach new productivity peaks.
 
-First, run the development server:
+## Project Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The project is structured as follows:
+
+- **app/**: Contains the main application components and pages.
+- **components/**: Reusable UI components.
+- **hooks/**: Custom React hooks.
+- **lib/**: Utility functions and libraries.
+- **prisma/**: Prisma schema and database configuration.
+- **public/**: Static assets.
+- **styles/**: Global styles and CSS files.
+
+## Dependencies
+
+The project uses the following dependencies:
+
+- `@clerk/nextjs`: Clerk authentication for Next.js.
+- `@radix-ui/react`: Fully accessible UI components.
+- `@prisma/client`: Prisma Client is an auto-generated query builder that enables type-safe database access.
+- `axios`: Promise based HTTP client for the browser and node.js.
+- `clsx`: A utility for constructing `className` strings conditionally.
+- `dnd-kit`: Drag and drop toolkit for React.
+- `date-fns`: Date functions library.
+- `lodash`: JS utility functions.
+- `react-query`: Hooks for fetching, caching, and updating asynchronous data in React. For Global Remote state management.
+- `usehooks-ts`: React hook library, ready to use, written in Typescript.
+- `zod`: TypeScript-first schema declaration and validation library.
+- `lucide-react`: Icon library
+- `sonner`: Toast notifications
+- `stripe`: Payment service
+- `unsplash-js`: Photo service
+- `zustand`: Global local state management
+
+## Dev Dependencies
+
+The project uses the following dev dependencies:
+
+- `@types/node`: TypeScript definitions for Node.js.
+- `@types/react`: TypeScript definitions for React.
+- `@typescript-eslint/eslint-plugin`: ESLint plugin for TypeScript.
+- `@typescript-eslint/parser`: TypeScript parser for ESLint.
+- `eslint`: A tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
+- `eslint-config-next`: ESLint configuration for Next.js.
+- `eslint-config-prettier`: Turns off all rules that are unnecessary or might conflict with Prettier.
+- `eslint-plugin-prettier`: Runs Prettier as an ESLint rule.
+- `prettier`: An opinionated code formatter.
+- `typescript`: JavaScript with syntax for types.
+
+## Environment Variables
+
+Create a `.env` file in the root of your project and add the following environment variables:
+
+```env
+DATABASE_URL="your-database-url"
+NEXT_PUBLIC_API_URL="your-api-url"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Middleware
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project uses middleware to protect routes and handle authentication. Public routes include:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- `/`
+- `/api/webhook`
+- `/sign-in(.*)`
+- `/sign-up(.*)`
 
-## Learn More
+## Custom Hooks
 
-To learn more about Next.js, take a look at the following resources:
+The project includes custom hooks such as `useAction` for handling actions with state management.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Prisma
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Prisma is used for database management. The schema is defined in `prisma/schema.prisma`.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the MIT License.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+
+```
+````

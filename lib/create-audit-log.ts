@@ -9,6 +9,17 @@ interface Props {
   action: ACTION;
 }
 
+/**
+ * Creates an audit log entry in the database.
+ *
+ * @param {Props} props - The properties required to create an audit log.
+ * @param {string} props.entityId - The ID of the entity being logged.
+ * @param {string} props.entityType - The type of the entity being logged.
+ * @param {string} props.entityTitle - The title of the entity being logged.
+ * @param {string} props.action - The action performed on the entity.
+ *
+ * @throws Will throw an error if the user or organization ID is not found.
+ */
 export const createAuditLog = async (props: Props) => {
   try {
     const { orgId } = auth();

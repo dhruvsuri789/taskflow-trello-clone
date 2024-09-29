@@ -17,9 +17,16 @@ interface ListContainerProps {
 }
 
 // Utility function to reorder an array using indexes
+// The reorder function is a useful utility for rearranging elements within an array without mutating the original array. This can be particularly useful in scenarios where immutability is important, such as in functional programming or when working with state management libraries like Redux.
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
+  // Creating a new array to mutate it. This creates a shallow copy of the input array list. This ensures that the original array remains unchanged, adhering to immutability principles.
   const result = Array.from(list);
+  // Removing the element from the array
+  // Removes one element from the result array at the startIndex position.
+  // The removed element is destructured into the variable removed.
   const [removed] = result.splice(startIndex, 1);
+  // Moving the element from startIndex to endIndex
+  // This inserts the removed element back into the result array at the endIndex position. The 0 indicates that no elements should be removed at the endIndex position, just an insertion.
   result.splice(endIndex, 0, removed);
 
   return result;
@@ -61,7 +68,7 @@ function ListContainer({ data, boardId }: ListContainerProps) {
     if (!destination) {
       return;
     }
-    // if Dropped in the same position, we dont have to anything
+    // if Dropped in the same position, we dont have to do anything
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -94,6 +101,7 @@ function ListContainer({ data, boardId }: ListContainerProps) {
         (list) => list.id === destination.droppableId
       );
 
+      // Maybe?:Meaning the card was dragged and dropped at the same place in the same list
       if (!sourceList || !destList) return;
 
       // Check if cards exists on the sourcelist
@@ -108,12 +116,14 @@ function ListContainer({ data, boardId }: ListContainerProps) {
 
       // Moving the card in the same list
       if (source.droppableId === destination.droppableId) {
+        // Reorder cards based on the index
         const reorderedCards = reorder(
           sourceList.cards,
           source.index,
           destination.index
         );
 
+        // Update the order for each card using the new index
         reorderedCards.forEach((card, index) => {
           card.order = index;
         });
@@ -138,6 +148,7 @@ function ListContainer({ data, boardId }: ListContainerProps) {
         // Add card to the destination list
         destList.cards.splice(destination.index, 0, movedCard);
 
+        // Update the order for each card in the source list
         sourceList.cards.forEach((card, index) => {
           card.order = index;
         });
@@ -148,7 +159,9 @@ function ListContainer({ data, boardId }: ListContainerProps) {
         });
 
         setOrderedData(newOrderedData);
-        //Trigger server action
+        // Trigger server action
+        // Maybe?: We are not updating the sourceList.cards as well because the card's listId was already changed.
+        // Maybe?: When we will update the database it will reflect everywhere
         executeUpdateCardOrder({
           boardId,
           items: destList.cards,
@@ -171,6 +184,7 @@ function ListContainer({ data, boardId }: ListContainerProps) {
             ))}
             {provided.placeholder}
             <ListForm />
+            {/* Prevents the element from shrinking when the flex container is resized. */}
             <div className="flex-shrink-0 w-1"></div>
           </ol>
         )}

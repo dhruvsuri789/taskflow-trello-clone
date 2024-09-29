@@ -6,6 +6,11 @@ interface OrganizationIdLayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * Asynchronously generates metadata for an organization.
+ *
+ * @returns A promise that resolves to an object containing the metadata. {Promise<Object>}
+ */
 export async function generateMetadata() {
   const { orgSlug } = auth();
 

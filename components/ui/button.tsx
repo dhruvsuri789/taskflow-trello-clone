@@ -42,7 +42,15 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
+/* 
+The asChild prop in the Button component is a boolean flag that determines whether the button should be rendered as a native HTML button element or as a custom component (Slot from @radix-ui/react-slot).
 
+When asChild is true, the button will be rendered as a Slot component, which allows the user to pass a custom child element to be used as the button. This can be useful for creating custom button designs or layouts.
+
+When asChild is false (or not provided, since it defaults to false), the button will be rendered as a native HTML button element.
+
+In the code, you can see that the Comp variable is set to either Slot or "button" based on the value of asChild. This Comp variable is then used to render the button element.
+*/
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";

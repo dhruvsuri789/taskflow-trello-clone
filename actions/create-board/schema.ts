@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 // Schema for CreateBoard
+// When I create a Board it has these properties: a title and an image both in string format
 export const CreateBoard = z.object({
   title: z
     .string({

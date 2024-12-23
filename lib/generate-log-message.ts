@@ -1,4 +1,5 @@
-import { ACTION, AuditLog } from "@prisma/client";
+import { AuditLog } from "@prisma/client";
+import { ACTION } from "@/types";
 
 /**
  * Generates a log message based on the action performed on an entity.

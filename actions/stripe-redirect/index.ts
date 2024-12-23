@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { StripeRedirect } from "./schema";
 import { InputType, ReturnType } from "./types";
 import { createAuditLog } from "@/lib/create-audit-log";
-import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { ACTION, ENTITY_TYPE } from "@/types";
 import { absoluteUrl } from "@/lib/utils";
 import { stripe } from "@/lib/stripe";
 

@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { CreateBoard } from "./schema";
 import { createAuditLog } from "@/lib/create-audit-log";
-import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { ACTION, ENTITY_TYPE } from "@/types";
 import { incrementAvailableCount, hasAvailableCount } from "@/lib/org-limit";
 import { checkSubscription } from "@/lib/subscription";
 import { unsplash } from "@/lib/unsplash";

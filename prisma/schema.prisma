@@ -4,14 +4,24 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// generator client {
+//  provider = "prisma-client-js"
+//}
+
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
+//datasource db {
+//  provider      = "postgresql"
+//  url           = env("DATABASE_URL")
+//  directUrl     = env("DIRECT_URL")
+//}
+
 datasource db {
-  provider      = "postgresql"
-  url           = env("DATABASE_URL")
-  directUrl     = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 
@@ -20,10 +30,10 @@ model Board{
   orgId           String
   title           String
   imageId         String
-  imageThumbUrl   String @db.Text
-  imageFullUrl    String @db.Text
-  imageUserName   String @db.Text
-  imageLinkHTML   String @db.Text
+  imageThumbUrl   String 
+  imageFullUrl    String 
+  imageUserName   String 
+  imageLinkHTML   String 
 
   // To refer the List
   lists           List[]
@@ -65,7 +75,7 @@ model Card{
   id          String @id @default(uuid())
   title       String
   order       Int
-  description String? @db.Text
+  description String? 
 
   listId      String
   list List   @relation(fields:[listId], references:[id], onDelete: Cascade)
@@ -76,28 +86,16 @@ model Card{
   @@index([listId])
 }
 
-enum ACTION{
-  CREATE
-  UPDATE
-  DELETE
-}
-
-enum ENTITY_TYPE{
-  BOARD
-  LIST
-  CARD
-}
-
 model AuditLog {
   id          String @id @default(uuid())
   orgId       String
-  action      ACTION
+  action      String
   entityId    String
-  entityType  ENTITY_TYPE
+  entityType  String
   entityTitle String
   userId      String
-  userImage   String @db.Text
-  userName    String @db.Text
+  userImage   String 
+  userName    String 
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
